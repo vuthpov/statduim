@@ -5,15 +5,11 @@
  */
 package project;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.io.File;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -34,6 +30,11 @@ public class frmMain extends javax.swing.JFrame {
         
         pLeft.setPreferredSize(d);
         
+        
+        DropDown ddGeneral=new DropDown(btnGeneral, pGeneral, 200, 10, 5);
+        DropDown ddUser=new DropDown(btnUser, pUser, 150, 10, 5);
+        DropDown ddReport=new DropDown(btnReport, pReport, 100, 10, 5);
+        
     }
 
     /**
@@ -49,6 +50,21 @@ public class frmMain extends javax.swing.JFrame {
         btnClose = new controls.ImageButton();
         btnMinimise = new controls.ImageButton();
         pLeft = new javax.swing.JPanel();
+        pGeneral = new javax.swing.JPanel();
+        btnGeneral = new javax.swing.JButton();
+        btnFootBallClub = new javax.swing.JButton();
+        btnCompetition = new javax.swing.JButton();
+        btnBooking = new javax.swing.JButton();
+        btnExpense = new javax.swing.JButton();
+        pUser = new javax.swing.JPanel();
+        btnUser = new javax.swing.JButton();
+        btnUserList = new javax.swing.JButton();
+        btnProfile = new javax.swing.JButton();
+        pReport = new javax.swing.JPanel();
+        btnReport = new javax.swing.JButton();
+        btnReport1 = new javax.swing.JButton();
+        myDesktopPane1 = new controls.MyDesktopPane();
+        myInternalFrame1 = new controls.MyInternalFrame();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -122,16 +138,159 @@ public class frmMain extends javax.swing.JFrame {
         pLeft.setBackground(new java.awt.Color(34, 45, 49));
         pLeft.setPreferredSize(new java.awt.Dimension(350, 350));
 
+        pGeneral.setBackground(new java.awt.Color(34, 45, 49));
+        pGeneral.setPreferredSize(new java.awt.Dimension(320, 50));
+
+        btnGeneral.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnGeneral.setForeground(new java.awt.Color(22, 22, 22));
+        btnGeneral.setText("General");
+        btnGeneral.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnFootBallClub.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnFootBallClub.setForeground(new java.awt.Color(22, 22, 22));
+        btnFootBallClub.setText("Football Club");
+        btnFootBallClub.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnCompetition.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnCompetition.setForeground(new java.awt.Color(22, 22, 22));
+        btnCompetition.setText("Competition");
+        btnCompetition.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnBooking.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnBooking.setForeground(new java.awt.Color(22, 22, 22));
+        btnBooking.setText("Booking");
+        btnBooking.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        javax.swing.GroupLayout pGeneralLayout = new javax.swing.GroupLayout(pGeneral);
+        pGeneral.setLayout(pGeneralLayout);
+        pGeneralLayout.setHorizontalGroup(
+            pGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnFootBallClub, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(btnCompetition, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(btnBooking, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+        );
+        pGeneralLayout.setVerticalGroup(
+            pGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pGeneralLayout.createSequentialGroup()
+                .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnFootBallClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnCompetition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnBooking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        btnExpense.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnExpense.setForeground(new java.awt.Color(22, 22, 22));
+        btnExpense.setText("Expense");
+        btnExpense.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        pUser.setBackground(new java.awt.Color(34, 45, 49));
+
+        btnUser.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnUser.setForeground(new java.awt.Color(22, 22, 22));
+        btnUser.setText("User");
+        btnUser.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnUserList.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnUserList.setForeground(new java.awt.Color(22, 22, 22));
+        btnUserList.setText("User list");
+        btnUserList.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnProfile.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnProfile.setForeground(new java.awt.Color(22, 22, 22));
+        btnProfile.setText("Profile");
+        btnProfile.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        javax.swing.GroupLayout pUserLayout = new javax.swing.GroupLayout(pUser);
+        pUser.setLayout(pUserLayout);
+        pUserLayout.setHorizontalGroup(
+            pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnUserList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pUserLayout.setVerticalGroup(
+            pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pUserLayout.createSequentialGroup()
+                .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        pReport.setBackground(new java.awt.Color(34, 45, 49));
+
+        btnReport.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnReport.setForeground(new java.awt.Color(22, 22, 22));
+        btnReport.setText("Report");
+        btnReport.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        btnReport1.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnReport1.setForeground(new java.awt.Color(22, 22, 22));
+        btnReport1.setText("Report 1");
+        btnReport1.setPreferredSize(new java.awt.Dimension(77, 50));
+
+        javax.swing.GroupLayout pReportLayout = new javax.swing.GroupLayout(pReport);
+        pReport.setLayout(pReportLayout);
+        pReportLayout.setHorizontalGroup(
+            pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnReport, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnReport1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pReportLayout.setVerticalGroup(
+            pReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pReportLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnReport1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121))
+        );
+
         javax.swing.GroupLayout pLeftLayout = new javax.swing.GroupLayout(pLeft);
         pLeft.setLayout(pLeftLayout);
         pLeftLayout.setHorizontalGroup(
             pLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addComponent(pGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnExpense, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pLeftLayout.setVerticalGroup(
             pLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
+            .addGroup(pLeftLayout.createSequentialGroup()
+                .addComponent(pGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnExpense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(pReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        myInternalFrame1.setTitle("Title");
+        myInternalFrame1.setVisible(true);
+
+        javax.swing.GroupLayout myInternalFrame1Layout = new javax.swing.GroupLayout(myInternalFrame1.getContentPane());
+        myInternalFrame1.getContentPane().setLayout(myInternalFrame1Layout);
+        myInternalFrame1Layout.setHorizontalGroup(
+            myInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        myInternalFrame1Layout.setVerticalGroup(
+            myInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        myDesktopPane1.add(myInternalFrame1);
+        myInternalFrame1.setBounds(70, 70, 370, 250);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -143,14 +302,16 @@ public class frmMain extends javax.swing.JFrame {
                     .addComponent(pHead, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(130, 650, Short.MAX_VALUE))))
+                        .addGap(0, 0, 0)
+                        .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pHead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(pLeft, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addComponent(pLeft, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)))
         );
 
         pack();
@@ -210,15 +371,38 @@ public class frmMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try { 
+                    UIManager.setLookAndFeel(UIManager.getLookAndFeel()); 
+                } catch(Exception ignored){
+                
+                }
+
+                
+                
                 new frmMain().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBooking;
     private controls.ImageButton btnClose;
+    private javax.swing.JButton btnCompetition;
+    private javax.swing.JButton btnExpense;
+    private javax.swing.JButton btnFootBallClub;
+    private javax.swing.JButton btnGeneral;
     private controls.ImageButton btnMinimise;
+    private javax.swing.JButton btnProfile;
+    private javax.swing.JButton btnReport;
+    private javax.swing.JButton btnReport1;
+    private javax.swing.JButton btnUser;
+    private javax.swing.JButton btnUserList;
+    private controls.MyDesktopPane myDesktopPane1;
+    private controls.MyInternalFrame myInternalFrame1;
+    private javax.swing.JPanel pGeneral;
     private javax.swing.JPanel pHead;
     private javax.swing.JPanel pLeft;
+    private javax.swing.JPanel pReport;
+    private javax.swing.JPanel pUser;
     // End of variables declaration//GEN-END:variables
 }
