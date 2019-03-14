@@ -1,4 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 1;
+SET SQL_SAFE_UPDATES = 0;
 SET default_storage_engine=InnoDB;
 
 create database IF NOT EXISTS staduim ;
@@ -16,17 +17,25 @@ roleId int,
 foreign key(roleId) references role(id));
 
 
+create table job(id int primary key auto_increment,
+job nvarchar(25)
+
+);
+
 create table employee(id int primary key auto_increment,
 	fName nvarchar(30),
     lName nvarchar(30),
     gender char,
+    jobId int,
     dob date,
-    hiredDated date,
+    hiredDate date,
     address nvarchar(200),
     tel nvarchar(20),
     photo nvarchar(200),
     userId int,
-    foreign key (userId) references user(id) on delete cascade);
+    foreign key (userId) references user(id) on delete cascade,
+    foreign key (jobId) references job(id)
+    );
 
     
 create table club(id int primary key auto_increment,

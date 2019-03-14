@@ -7,7 +7,11 @@ package project;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -17,6 +21,8 @@ import javax.swing.UIManager;
  */
 public class frmMain extends javax.swing.JFrame {
 
+    
+    
     /**
      * Creates new form frmMain
      */
@@ -32,7 +38,7 @@ public class frmMain extends javax.swing.JFrame {
         
         
         DropDown ddGeneral=new DropDown(btnGeneral, pGeneral, 200, 10, 5);
-        DropDown ddUser=new DropDown(btnUser, pUser, 150, 10, 5);
+        DropDown ddUser=new DropDown(btnEmployee, pUser, 150, 10, 5);
         DropDown ddReport=new DropDown(btnReport, pReport, 100, 10, 5);
         
     }
@@ -57,14 +63,13 @@ public class frmMain extends javax.swing.JFrame {
         btnBooking = new javax.swing.JButton();
         btnExpense = new javax.swing.JButton();
         pUser = new javax.swing.JPanel();
-        btnUser = new javax.swing.JButton();
-        btnUserList = new javax.swing.JButton();
+        btnEmployee = new javax.swing.JButton();
+        btnEmployeeList = new javax.swing.JButton();
         btnProfile = new javax.swing.JButton();
         pReport = new javax.swing.JPanel();
         btnReport = new javax.swing.JButton();
         btnReport1 = new javax.swing.JButton();
-        myDesktopPane1 = new controls.MyDesktopPane();
-        myInternalFrame1 = new controls.MyInternalFrame();
+        dpContent = new controls.MyDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -190,15 +195,20 @@ public class frmMain extends javax.swing.JFrame {
 
         pUser.setBackground(new java.awt.Color(34, 45, 49));
 
-        btnUser.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnUser.setForeground(new java.awt.Color(22, 22, 22));
-        btnUser.setText("User");
-        btnUser.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnEmployee.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnEmployee.setForeground(new java.awt.Color(22, 22, 22));
+        btnEmployee.setText("Employee");
+        btnEmployee.setPreferredSize(new java.awt.Dimension(77, 50));
 
-        btnUserList.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnUserList.setForeground(new java.awt.Color(22, 22, 22));
-        btnUserList.setText("User list");
-        btnUserList.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnEmployeeList.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnEmployeeList.setForeground(new java.awt.Color(22, 22, 22));
+        btnEmployeeList.setText("Employee List");
+        btnEmployeeList.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnEmployeeList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmployeeListActionPerformed(evt);
+            }
+        });
 
         btnProfile.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnProfile.setForeground(new java.awt.Color(22, 22, 22));
@@ -209,16 +219,16 @@ public class frmMain extends javax.swing.JFrame {
         pUser.setLayout(pUserLayout);
         pUserLayout.setHorizontalGroup(
             pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnUserList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnEmployeeList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pUserLayout.setVerticalGroup(
             pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pUserLayout.createSequentialGroup()
-                .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnUserList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEmployeeList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -272,25 +282,8 @@ public class frmMain extends javax.swing.JFrame {
                 .addComponent(pUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(pReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 506, Short.MAX_VALUE))
         );
-
-        myInternalFrame1.setTitle("Title");
-        myInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout myInternalFrame1Layout = new javax.swing.GroupLayout(myInternalFrame1.getContentPane());
-        myInternalFrame1.getContentPane().setLayout(myInternalFrame1Layout);
-        myInternalFrame1Layout.setHorizontalGroup(
-            myInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        myInternalFrame1Layout.setVerticalGroup(
-            myInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        myDesktopPane1.add(myInternalFrame1);
-        myInternalFrame1.setBounds(70, 70, 370, 250);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -299,19 +292,20 @@ public class frmMain extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pHead, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
+                    .addComponent(pHead, javax.swing.GroupLayout.DEFAULT_SIZE, 1092, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))))
+                        .addComponent(dpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+                        .addGap(0, 0, 0))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pHead, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
-                    .addComponent(pLeft, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)))
+                    .addComponent(pLeft, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addComponent(dpContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
@@ -340,6 +334,61 @@ public class frmMain extends javax.swing.JFrame {
     private void btnMinimiseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimiseMouseClicked
         setState(this.ICONIFIED);
     }//GEN-LAST:event_btnMinimiseMouseClicked
+
+    void centerForm(JInternalFrame frm){
+        
+        
+        try{
+            
+            frm.setSelected(true);
+            
+            
+            Dimension desktopSize = dpContent.getSize();
+            Dimension jInternalFrameSize = frm.getSize();
+            
+            int x=(desktopSize.width - jInternalFrameSize.width)/2;
+            int y=(desktopSize.height- jInternalFrameSize.height)/2;
+            
+            
+            if(frm.getX()!=x&&frm.getY()!=y)
+                frm.setLocation(x,y);
+            
+            
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    
+    
+    void showForm(JInternalFrame frm){
+        if(frm.isIcon()){
+            try {
+                frm.setIcon(false);
+            } catch (PropertyVetoException ex) {
+                JOptionPane.showMessageDialog(this,ex.getMessage());
+            }
+        }
+    }
+    
+    void getForm(JInternalFrame frm){
+        showForm(frm);
+            
+        
+        if(frm.getParent()==null)
+            dpContent.add(frm);
+        
+        
+        frm.setVisible(true);
+                   
+        centerForm(frm);
+    }
+    
+    frmEmployeeList employeeList=new frmEmployeeList();;
+    private void btnEmployeeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeeListActionPerformed
+        
+        getForm(employeeList);
+        
+    }//GEN-LAST:event_btnEmployeeListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -388,6 +437,8 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnBooking;
     private controls.ImageButton btnClose;
     private javax.swing.JButton btnCompetition;
+    private javax.swing.JButton btnEmployee;
+    private javax.swing.JButton btnEmployeeList;
     private javax.swing.JButton btnExpense;
     private javax.swing.JButton btnFootBallClub;
     private javax.swing.JButton btnGeneral;
@@ -395,10 +446,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnReport1;
-    private javax.swing.JButton btnUser;
-    private javax.swing.JButton btnUserList;
-    private controls.MyDesktopPane myDesktopPane1;
-    private controls.MyInternalFrame myInternalFrame1;
+    private controls.MyDesktopPane dpContent;
     private javax.swing.JPanel pGeneral;
     private javax.swing.JPanel pHead;
     private javax.swing.JPanel pLeft;

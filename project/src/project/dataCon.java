@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -52,49 +51,29 @@ public class dataCon {
         Con = aCon;
     }
     
-    public static DefaultTableModel executeQry(String sql){
+    public static void executeQry(String sql,DefaultTableModel mod){
         
-        DefaultTableModel mod=null;
         try {
-            
-            
             Statement stmt=Con.createStatement();
             ResultSet rs=stmt.executeQuery(sql);
            
             
             ResultSetMetaData rsmd = rs.getMetaData();
-            
-            Object []columnName=new Object[rsmd.getColumnCount()];
-
-            for(int i=0;i<rsmd.getColumnCount();i++){
-                columnName[i]=rsmd.getColumnName(i+1);
-            }
-            
+                        
             if(rs.first()){
+
+                Object []row=new Object [rsmd.getColumnCount()];
                 
-                rs.last();
-                int rowCount= rs.getRow();
-                rs.first();
-               
-                Object [][]row=new Object [rowCount][rsmd.getColumnCount()];
-                
-                int rowIndex=0;
                 do{
                     
                     for(int i=0;i<rsmd.getColumnCount();i++){
-                       row[rowIndex][i]=rs.getObject(i+1);
+                       row[i]=rs.getObject(i+1);
                     }
                     
-                    rowIndex++;        
+                    mod.addRow(row);
                                       
                 }while(rs.next());
-                
-                
-                
-                mod=new DefaultTableModel(row,columnName);
-                
-            }else{
-                mod=new DefaultTableModel(columnName,0);
+                        
             }
             
             rs.close();
@@ -103,12 +82,10 @@ public class dataCon {
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-            
         }
-        
-        return mod;
-
     }
+    
+    
     
     
     public static boolean executeActionQry(List<String> sql){
