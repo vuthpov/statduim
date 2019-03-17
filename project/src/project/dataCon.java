@@ -31,7 +31,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class dataCon {
     private static Connection Con;
-   
+    
+    
+    
     public static void connectToDB()throws Exception{
         Class.forName("com.mysql.jdbc.Driver");  
         Con=DriverManager.getConnection("jdbc:mysql://localhost/staduim","root","");     

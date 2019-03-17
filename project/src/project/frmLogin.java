@@ -5,13 +5,20 @@
  */
 package project;
 
+import controls.WaterMarkedTextField;
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import static project.Employee.sql;
 
 /**
  *
@@ -85,7 +92,7 @@ public class frmLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
+        txtUsername = new JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnLogin = new keeptoo.KButton();
         txtPassword = new javax.swing.JPasswordField();
@@ -255,18 +262,34 @@ public class frmLogin extends javax.swing.JFrame {
         }
         
         
-        String st="select count(*) from user where username='"+username+"' and password='"+password+"'";
+        sql="select e.id from user u join employee e on e.userId=u.id where username='"+username+"' and password='"+password+"'";
         
-        Long userExists=(Long)dataCon.one_cell_value(st);
         
-        if(userExists==1){
-            frmMain main=new frmMain();
-            main.setVisible(true);
-            dispose();
-        }else{
-            JOptionPane.showMessageDialog(this, "Wrong username or password");
+        
+         try {
+            Statement stmt=dataCon.getCon().createStatement();
+            ResultSet rs=stmt.executeQuery(sql);
+           
             
+            
+            if(rs.first()){
+                frmMain main=new frmMain();
+                main.setVisible(true);
+                dispose();
+                Employee.setCurrentEmpId(rs.getInt(1));
+                        
+            }else{
+                JOptionPane.showMessageDialog(this, "Wrong username or password");
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+     
         
         
         CheckRmbMe();
@@ -332,3 +355,4 @@ public class frmLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
+

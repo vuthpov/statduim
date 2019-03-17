@@ -6,7 +6,7 @@ insert into user(username,password,roleId)
 
 insert into job(job) values('Manager'),('Ticket Seller');
 
-insert into employee(fName,lName,gender,jobId,dob,hiredDate,address,tel,photo,userId)
-	values('admin','admin','M',1,now(),now(),'','','',1),
-    ('user','user','M',2,now(),now(),'','','',2);
+insert into employee(fName,lName,gender,jobId,dob,hiredDate,address,tel,email,photo,userId,salary)
+	values('admin','admin','M',1,now(),now(),'','','','',1,200),
+    ('user','user','M',2,now(),now(),'','','','',2,100);
     
