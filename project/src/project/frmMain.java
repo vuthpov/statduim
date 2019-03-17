@@ -8,8 +8,6 @@ package project;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -275,6 +273,7 @@ public class frmMain extends javax.swing.JFrame {
         pLeftLayout.setVerticalGroup(
             pLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pLeftLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
                 .addComponent(pGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnExpense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,8 +281,10 @@ public class frmMain extends javax.swing.JFrame {
                 .addComponent(pUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(pReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 506, Short.MAX_VALUE))
+                .addContainerGap(503, Short.MAX_VALUE))
         );
+
+        dpContent.setOpaque(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -296,8 +297,7 @@ public class frmMain extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(dpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
-                        .addGap(0, 0, 0))))
+                        .addComponent(dpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +370,7 @@ public class frmMain extends javax.swing.JFrame {
         }
     }
     
-    void getForm(JInternalFrame frm){
+    public void getForm(JInternalFrame frm){
         showForm(frm);
             
         
@@ -383,7 +383,8 @@ public class frmMain extends javax.swing.JFrame {
         centerForm(frm);
     }
     
-    frmEmployeeList employeeList=new frmEmployeeList();;
+    frmEmployeeList employeeList=new frmEmployeeList(this);
+    
     private void btnEmployeeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeeListActionPerformed
         
         getForm(employeeList);

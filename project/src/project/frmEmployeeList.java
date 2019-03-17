@@ -13,15 +13,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -35,7 +32,10 @@ public class frmEmployeeList extends MyInternalFrame {
     /**
      * Creates new form frmUserList
      */
-    public frmEmployeeList() {
+    
+    frmMain mainForm;
+    
+    public frmEmployeeList(frmMain mainForm) {
         super();
         initComponents();
         
@@ -62,7 +62,7 @@ public class frmEmployeeList extends MyInternalFrame {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (e.isPopupTrigger()){
+                if (e.getButton()==MouseEvent.BUTTON3){
                     jPopupMenu1.show(jTableEmployee, e.getX(), e.getY());
                 }
             }
@@ -70,6 +70,20 @@ public class frmEmployeeList extends MyInternalFrame {
         };
         
         jTableEmployee.addMouseListener(mouse);
+        
+        
+        mouse=new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton()==MouseEvent.BUTTON3){
+                    jPopupMenu1.show(jScrollPane2, e.getX(), e.getY());
+                }
+            }
+            
+        };
+        
+        jScrollPane2.addMouseListener(mouse);
         
         setVisiblePopUp(false);
         
@@ -80,6 +94,11 @@ public class frmEmployeeList extends MyInternalFrame {
             setVisiblePopUp(isVisibled);
             
         });
+        
+        this.mainForm=mainForm;
+        
+        
+        
     }
 
     void setVisiblePopUp(boolean isVisibled){
@@ -113,6 +132,11 @@ public class frmEmployeeList extends MyInternalFrame {
         jTableEmployee = new controls.SubJTable();
 
         popAdd.setText("Add");
+        popAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popAddActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(popAdd);
 
         popEdit.setText("Edit");
@@ -123,6 +147,11 @@ public class frmEmployeeList extends MyInternalFrame {
         jPopupMenu1.add(jSeparator1);
 
         popViewImage.setText("View Image");
+        popViewImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popViewImageActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(popViewImage);
 
         setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
@@ -176,11 +205,11 @@ public class frmEmployeeList extends MyInternalFrame {
 
             },
             new String [] {
-                "#", "First Name", "Last Name", "Gender", "Job", "Date of Birth", "Hired Date", "Address", "Phone", "Photo", "Username", "Role"
+                "#", "First Name", "Last Name", "Gender", "Job", "Date of Birth", "Hired Date","Salary", "Address", "Phone", "Photo", "Username", "Role"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, controls.JPictureBox.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,java.lang.String.class, java.lang.String.class, java.lang.String.class,controls.JPictureBox.class, java.lang.String.class,java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false, false
@@ -205,7 +234,7 @@ public class frmEmployeeList extends MyInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 943;
-        gridBagConstraints.ipady = 397;
+        gridBagConstraints.ipady = 516;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -224,8 +253,7 @@ public class frmEmployeeList extends MyInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pTable, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(pTable, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
         );
 
         pack();
@@ -239,6 +267,24 @@ public class frmEmployeeList extends MyInternalFrame {
         
         
     }//GEN-LAST:event_formInternalFrameOpened
+
+    int selectedRowIndex=-1;
+    private void popViewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popViewImageActionPerformed
+        selectedRowIndex=jTableEmployee.getSelectedRow();
+        String iconUrl=modelEmployee.getValueAt(selectedRowIndex,10)+"";
+        frmViewImage viewImage=new frmViewImage(iconUrl);
+    }//GEN-LAST:event_popViewImageActionPerformed
+    
+    
+    
+    
+    
+    private void popAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popAddActionPerformed
+        
+        pEmployee employee=new pEmployee();
+        JOptionPane.showInternalMessageDialog(this,employee, "Add Employee", JOptionPane.PLAIN_MESSAGE, null);
+        
+    }//GEN-LAST:event_popAddActionPerformed
     
     DefaultTableModel modelEmployee;
    
