@@ -5,20 +5,19 @@
  */
 package project;
 
-import controls.JPictureBox;
-import java.awt.Dimension;
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author Nemesis
  */
-public class frmViewImage extends javax.swing.JFrame {
+public class frmViewImage extends javax.swing.JPanel {
 
     /**
      * Creates new form frmViewImage
      */
     public frmViewImage(String imageUrl) {
+        
         initComponents();
         setVisible(true);
         
@@ -32,6 +31,7 @@ public class frmViewImage extends javax.swing.JFrame {
         
         
             
+    
     }
 
     /**
@@ -45,9 +45,7 @@ public class frmViewImage extends javax.swing.JFrame {
 
         jPictureBox1 = new controls.JPictureBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(50, 50));
-        setSize(new java.awt.Dimension(200, 200));
+        setPreferredSize(new java.awt.Dimension(200, 200));
 
         jPictureBox1.setImageMode(controls.JPictureBox.mode.Zoom);
 
@@ -55,32 +53,25 @@ public class frmViewImage extends javax.swing.JFrame {
         jPictureBox1.setLayout(jPictureBox1Layout);
         jPictureBox1Layout.setHorizontalGroup(
             jPictureBox1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 198, Short.MAX_VALUE)
+            .addGap(0, 298, Short.MAX_VALUE)
         );
         jPictureBox1Layout.setVerticalGroup(
             jPictureBox1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 198, Short.MAX_VALUE)
+            .addGap(0, 298, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPictureBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPictureBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPictureBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPictureBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        setSize(new java.awt.Dimension(218, 247));
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private controls.JPictureBox jPictureBox1;
