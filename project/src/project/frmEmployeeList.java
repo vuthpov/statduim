@@ -7,21 +7,28 @@ package project;
 
 import controls.JPictureBox;
 import controls.MyInternalFrame;
+import controls.MyModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -78,6 +85,7 @@ public class frmEmployeeList extends MyInternalFrame {
             public void mouseReleased(MouseEvent e) {
                 if (e.getButton()==MouseEvent.BUTTON3){
                     jPopupMenu1.show(jScrollPane2, e.getX(), e.getY());
+                    
                 }
             }
             
@@ -85,13 +93,28 @@ public class frmEmployeeList extends MyInternalFrame {
         
         jScrollPane2.addMouseListener(mouse);
         
-        setVisiblePopUp(false);
+        setVisiblePopUp(false,false,false);
         
         
         jTableEmployee.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             boolean isVisibled=jTableEmployee.getSelectedRowCount()>0;
             
-            setVisiblePopUp(isVisibled);
+            boolean isVisibledForViewImage=false;
+            
+            boolean isVisibledForActivate=false;
+            
+            if(jTableEmployee.getSelectedRowCount()==1){
+                int selectedRowIndex=jTableEmployee.getSelectedRow();
+                isVisibledForViewImage=!(modelEmployee.getValueAt(selectedRowIndex, 14)+"").equals("");
+                
+                isVisibledForActivate=!(modelEmployee.getValueAt(selectedRowIndex, 13)+"").equals("");
+            }
+            
+            
+            
+            setVisiblePopUp(isVisibled,isVisibledForActivate,isVisibledForViewImage);
+            
+            
             
         });
         
@@ -99,13 +122,40 @@ public class frmEmployeeList extends MyInternalFrame {
         
         
         
+        TableColumnModel tcm = jTableEmployee.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(tcm.getColumnCount()-1));
+        tcm.removeColumn(tcm.getColumn(tcm.getColumnCount()-1));
+        
+        jTableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    void setVisiblePopUp(boolean isVisibled){
-        jSeparator1.setVisible(isVisibled);
+    void setTextOnPopActivate(){
+        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        if(jTableEmployee.getSelectedRowCount()==0) return;
+        
+        String st="";
+        
+        st=modelEmployee.getValueAt(selectedRowIndex,13).equals("Yes")?"Deactivate":"Activate";
+        
+        popActivate.setText(st);
+    }
+    
+    void setVisiblePopUp(boolean isVisibled,boolean isVisibledForActivate,boolean isVisibledForViewImage){
+        
+        
         popEdit.setVisible(isVisibled);
         popDelete.setVisible(isVisibled);
-        popViewImage.setVisible(isVisibled);
+        
+        jSeparator1.setVisible(isVisibledForViewImage);
+        popViewImage.setVisible(isVisibledForViewImage);
+        
+        jSeparator2.setVisible(isVisibledForActivate);
+        popActivate.setVisible(isVisibledForActivate);
+        
+        if(modelEmployee==null) return;
+        
+        setTextOnPopActivate();
+        
     }
     
     
@@ -123,6 +173,8 @@ public class frmEmployeeList extends MyInternalFrame {
         popAdd = new javax.swing.JMenuItem();
         popEdit = new javax.swing.JMenuItem();
         popDelete = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        popActivate = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         popViewImage = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
@@ -140,13 +192,32 @@ public class frmEmployeeList extends MyInternalFrame {
         jPopupMenu1.add(popAdd);
 
         popEdit.setText("Edit");
+        popEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popEditActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(popEdit);
 
         popDelete.setText("Delete");
+        popDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popDeleteActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(popDelete);
+        jPopupMenu1.add(jSeparator2);
+
+        popActivate.setText("Activate");
+        popActivate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popActivateActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popActivate);
         jPopupMenu1.add(jSeparator1);
 
-        popViewImage.setText("View Image");
+        popViewImage.setText("View Photo");
         popViewImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 popViewImageActionPerformed(evt);
@@ -200,19 +271,19 @@ public class frmEmployeeList extends MyInternalFrame {
         pTable.setBackground(new java.awt.Color(214, 217, 223));
         pTable.setLayout(new java.awt.GridBagLayout());
 
-        jTableEmployee.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEmployee.setModel(new controls.MyModel(
             new Object [][] {
 
             },
             new String [] {
-                "#", "First Name", "Last Name", "Gender", "Job", "Date of Birth", "Hired Date","Salary", "Address", "Phone", "Photo", "Username", "Role"
+                "#", "First Name", "Last Name", "Gender", "Job", "Date of Birth", "Hired Date", "Salary", "Address", "Phone", "Email", "Username", "Role", "Active", "Photo", "id", "userId"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,java.lang.String.class, java.lang.String.class, java.lang.String.class,controls.JPictureBox.class, java.lang.String.class,java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, controls.JPictureBox.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -224,10 +295,6 @@ public class frmEmployeeList extends MyInternalFrame {
             }
         });
         jScrollPane2.setViewportView(jTableEmployee);
-        if (jTableEmployee.getColumnModel().getColumnCount() > 0) {
-            jTableEmployee.getColumnModel().getColumn(3).setResizable(false);
-            jTableEmployee.getColumnModel().getColumn(11).setResizable(false);
-        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -246,14 +313,14 @@ public class frmEmployeeList extends MyInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE)
+            .addComponent(pTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pTable, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
+                .addComponent(pTable, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE))
         );
 
         pack();
@@ -261,7 +328,7 @@ public class frmEmployeeList extends MyInternalFrame {
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
        
-        modelEmployee=(DefaultTableModel)jTableEmployee.getModel();
+        modelEmployee=(MyModel)jTableEmployee.getModel();
    
         Employee.getEmployeeList(modelEmployee);
         
@@ -271,8 +338,13 @@ public class frmEmployeeList extends MyInternalFrame {
     int selectedRowIndex=-1;
     private void popViewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popViewImageActionPerformed
         selectedRowIndex=jTableEmployee.getSelectedRow();
-        String iconUrl=modelEmployee.getValueAt(selectedRowIndex,10)+"";
+        String iconUrl=modelEmployee.getValueAt(selectedRowIndex,14)+"";
+        
         frmViewImage viewImage=new frmViewImage(iconUrl);
+        JDialog dialog=new JDialog(mainForm);
+        
+        prepareDialog(dialog, viewImage,true);
+        
     }//GEN-LAST:event_popViewImageActionPerformed
     
     
@@ -281,13 +353,91 @@ public class frmEmployeeList extends MyInternalFrame {
     
     private void popAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popAddActionPerformed
         
-        pEmployee employee=new pEmployee();
-        JOptionPane.showInternalMessageDialog(this,employee, "Add Employee", JOptionPane.PLAIN_MESSAGE, null);
+        try {
+
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        
+        JDialog dialog=new JDialog(mainForm);
+        pEmployee employee=new pEmployee(dialog,modelEmployee);
+
+        
+        
+        prepareDialog(dialog, employee,false);
+        
         
     }//GEN-LAST:event_popAddActionPerformed
+
     
-    DefaultTableModel modelEmployee;
-   
+    void prepareDialog(JDialog dialog,JPanel panel,boolean isResizable){
+        
+        
+        
+        int[] centerCordinate=frmMain.getCenterCordinate(panel.getPreferredSize());
+        
+        dialog.setLocation(centerCordinate[0], centerCordinate[1]);
+        dialog.setResizable(isResizable);
+        dialog.setModal(true);
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+    
+    private void popActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popActivateActionPerformed
+        int active=popActivate.getText().equals("Activate")?1:0;
+        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        int id=Integer.valueOf(modelEmployee.getValueAt(selectedRowIndex, modelEmployee.getColumnCount()-1)+"");
+        
+        if(Employee.setActivate(id, active)){
+            String st=active==1?"Yes":"No";
+            
+            modelEmployee.setValueAt(st, selectedRowIndex, 13);
+            
+           
+            popActivate.setText(active!=1?"Activate":"Deactivate");
+        }
+        
+        
+    }//GEN-LAST:event_popActivateActionPerformed
+
+    private void popDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popDeleteActionPerformed
+        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        
+        int id=Integer.valueOf(modelEmployee.getValueAt(selectedRowIndex, modelEmployee.getColumnCount()-2)+"");
+        
+        if(Employee.delete(id)){
+            modelEmployee.removeRow(selectedRowIndex);
+            resetAutoNumber(selectedRowIndex);
+            JOptionPane.showMessageDialog(this, "Delete successful", "",JOptionPane.INFORMATION_MESSAGE);
+            
+            
+        }
+    }//GEN-LAST:event_popDeleteActionPerformed
+
+    private void popEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditActionPerformed
+        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        JDialog dialog=new JDialog(mainForm);
+        pEmployee employee=new pEmployee(dialog,modelEmployee,selectedRowIndex);
+
+        
+        
+        prepareDialog(dialog, employee,false);
+    }//GEN-LAST:event_popEditActionPerformed
+    
+    MyModel modelEmployee;
+    
+
+    void resetAutoNumber(int startRow){
+        
+        for(int i=startRow;i<modelEmployee.getRowCount();i++){
+            modelEmployee.setValueAt(i+1, i, 0);
+        }
+        
+    }
+    
 class PictureBoxRenderer implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
         boolean hasFocus, int row, int column) {
@@ -322,8 +472,10 @@ class PictureBoxRenderer implements TableCellRenderer {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private controls.SubJTable jTableEmployee;
     private javax.swing.JPanel pTable;
+    private javax.swing.JMenuItem popActivate;
     private javax.swing.JMenuItem popAdd;
     private javax.swing.JMenuItem popDelete;
     private javax.swing.JMenuItem popEdit;

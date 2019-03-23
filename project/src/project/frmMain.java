@@ -8,6 +8,7 @@ package project;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -24,8 +25,10 @@ public class frmMain extends javax.swing.JFrame {
     /**
      * Creates new form frmMain
      */
+    
     public frmMain() {
         initComponents();
+        
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int pLeftHeight=screenSize.height-pHead.getHeight();
@@ -36,11 +39,15 @@ public class frmMain extends javax.swing.JFrame {
         
         
         DropDown ddGeneral=new DropDown(btnGeneral, pGeneral, 200, 10, 5);
-        DropDown ddUser=new DropDown(btnEmployee, pUser, 150, 10, 5);
+        DropDown ddUser=new DropDown(btnEmployee, pEmployee, 150, 10, 5);
         DropDown ddReport=new DropDown(btnReport, pReport, 100, 10, 5);
         
+        
+        
     }
-
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,7 +67,7 @@ public class frmMain extends javax.swing.JFrame {
         btnCompetition = new javax.swing.JButton();
         btnBooking = new javax.swing.JButton();
         btnExpense = new javax.swing.JButton();
-        pUser = new javax.swing.JPanel();
+        pEmployee = new javax.swing.JPanel();
         btnEmployee = new javax.swing.JButton();
         btnEmployeeList = new javax.swing.JButton();
         btnProfile = new javax.swing.JButton();
@@ -191,7 +198,7 @@ public class frmMain extends javax.swing.JFrame {
         btnExpense.setText("Expense");
         btnExpense.setPreferredSize(new java.awt.Dimension(77, 50));
 
-        pUser.setBackground(new java.awt.Color(34, 45, 49));
+        pEmployee.setBackground(new java.awt.Color(34, 45, 49));
 
         btnEmployee.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnEmployee.setForeground(new java.awt.Color(22, 22, 22));
@@ -212,18 +219,23 @@ public class frmMain extends javax.swing.JFrame {
         btnProfile.setForeground(new java.awt.Color(22, 22, 22));
         btnProfile.setText("Profile");
         btnProfile.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProfileActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout pUserLayout = new javax.swing.GroupLayout(pUser);
-        pUser.setLayout(pUserLayout);
-        pUserLayout.setHorizontalGroup(
-            pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pEmployeeLayout = new javax.swing.GroupLayout(pEmployee);
+        pEmployee.setLayout(pEmployeeLayout);
+        pEmployeeLayout.setHorizontalGroup(
+            pEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnEmployeeList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        pUserLayout.setVerticalGroup(
-            pUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pUserLayout.createSequentialGroup()
+        pEmployeeLayout.setVerticalGroup(
+            pEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pEmployeeLayout.createSequentialGroup()
                 .addComponent(btnEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnEmployeeList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,7 +279,7 @@ public class frmMain extends javax.swing.JFrame {
             pLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnExpense, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pLeftLayout.setVerticalGroup(
@@ -278,7 +290,7 @@ public class frmMain extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(btnExpense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(pUser, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(pReport, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(503, Short.MAX_VALUE))
@@ -325,9 +337,12 @@ public class frmMain extends javax.swing.JFrame {
 
         switch(n){
             case 0:
-            frmLogin.main(null);
+                frmLogin.main(null);
+                dispose();
+            break;
+            
             case 1:
-            dispose();
+                System.exit(0);
         }
     }//GEN-LAST:event_btnCloseMouseClicked
 
@@ -335,12 +350,24 @@ public class frmMain extends javax.swing.JFrame {
         setState(this.ICONIFIED);
     }//GEN-LAST:event_btnMinimiseMouseClicked
 
-    void centerForm(JInternalFrame frm){
+    
+    public static int[] getCenterCordinate(Dimension FrameSize){
+        int []centerCordinate=new int[2];
         
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+       
         
+        centerCordinate[0]=(screenSize.width-FrameSize.width)/2;
+        centerCordinate[1]=(screenSize.height-FrameSize.height)/2;
+        
+        return centerCordinate;
+    }
+    
+    
+    
+    
+    void centerForm(JComponent frm){
         try{
-            
-            frm.setSelected(true);
             
             
             Dimension desktopSize = dpContent.getSize();
@@ -390,6 +417,12 @@ public class frmMain extends javax.swing.JFrame {
         getForm(employeeList);
         
     }//GEN-LAST:event_btnEmployeeListActionPerformed
+
+    
+    
+    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
+        
+    }//GEN-LAST:event_btnProfileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,10 +481,10 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnReport1;
     private controls.MyDesktopPane dpContent;
+    private javax.swing.JPanel pEmployee;
     private javax.swing.JPanel pGeneral;
     private javax.swing.JPanel pHead;
     private javax.swing.JPanel pLeft;
     private javax.swing.JPanel pReport;
-    private javax.swing.JPanel pUser;
     // End of variables declaration//GEN-END:variables
 }
