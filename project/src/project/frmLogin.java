@@ -262,7 +262,7 @@ public class frmLogin extends javax.swing.JFrame {
         }
         
         
-        sql="select e.id from user u join employee e on e.userId=u.id where username='"+username+"' and password='"+password+"'";
+        sql="select e.empId,fname,lname,role,is_active from user u join employee e on e.empId=u.empId join role r on u.roleId=r.roleId where username='"+username+"' and password='"+password+"'";
         
         
         
@@ -273,11 +273,23 @@ public class frmLogin extends javax.swing.JFrame {
             
             
             if(rs.first()){
+                
+                if(rs.getInt(5)==0){
+                    JOptionPane.showMessageDialog(this, "User deactivated");
+                    return;
+                }
+                
+                Employee.setCurrentEmpId(rs.getInt(1));
+                Employee.setCurrentfullName(rs.getString(2)+" "+rs.getString(3));
+                Employee.setCurrentRole(rs.getString(4));
+                
                 frmMain main=new frmMain();
                 main.setVisible(true);
                 dispose();
-                Employee.setCurrentEmpId(rs.getInt(1));
-                        
+                
+                
+                
+               
             }else{
                 JOptionPane.showMessageDialog(this, "Wrong username or password");
             }

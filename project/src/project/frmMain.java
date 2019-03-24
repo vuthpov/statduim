@@ -43,7 +43,7 @@ public class frmMain extends javax.swing.JFrame {
         DropDown ddReport=new DropDown(btnReport, pReport, 100, 10, 5);
         
         
-        
+        lbName.setText("Name: "+Employee.getCurrentfullName()+"           Role: "+Employee.getCurrentRole());
     }
     
     
@@ -60,6 +60,7 @@ public class frmMain extends javax.swing.JFrame {
         pHead = new javax.swing.JPanel();
         btnClose = new controls.ImageButton();
         btnMinimise = new controls.ImageButton();
+        lbName = new javax.swing.JLabel();
         pLeft = new javax.swing.JPanel();
         pGeneral = new javax.swing.JPanel();
         btnGeneral = new javax.swing.JButton();
@@ -70,7 +71,7 @@ public class frmMain extends javax.swing.JFrame {
         pEmployee = new javax.swing.JPanel();
         btnEmployee = new javax.swing.JButton();
         btnEmployeeList = new javax.swing.JButton();
-        btnProfile = new javax.swing.JButton();
+        btnChangePassword = new javax.swing.JButton();
         pReport = new javax.swing.JPanel();
         btnReport = new javax.swing.JButton();
         btnReport1 = new javax.swing.JButton();
@@ -124,12 +125,19 @@ public class frmMain extends javax.swing.JFrame {
             .addGap(0, 48, Short.MAX_VALUE)
         );
 
+        lbName.setBackground(new java.awt.Color(51, 51, 51));
+        lbName.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        lbName.setForeground(new java.awt.Color(22, 22, 22));
+        lbName.setText("Name:");
+
         javax.swing.GroupLayout pHeadLayout = new javax.swing.GroupLayout(pHead);
         pHead.setLayout(pHeadLayout);
         pHeadLayout.setHorizontalGroup(
             pHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pHeadLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMinimise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,6 +148,7 @@ public class frmMain extends javax.swing.JFrame {
             .addGroup(pHeadLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMinimise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(9, Short.MAX_VALUE))
@@ -215,13 +224,13 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        btnProfile.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnProfile.setForeground(new java.awt.Color(22, 22, 22));
-        btnProfile.setText("Profile");
-        btnProfile.setPreferredSize(new java.awt.Dimension(77, 50));
-        btnProfile.addActionListener(new java.awt.event.ActionListener() {
+        btnChangePassword.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnChangePassword.setForeground(new java.awt.Color(22, 22, 22));
+        btnChangePassword.setText("Change Password");
+        btnChangePassword.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProfileActionPerformed(evt);
+                btnChangePasswordActionPerformed(evt);
             }
         });
 
@@ -231,7 +240,7 @@ public class frmMain extends javax.swing.JFrame {
             pEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnEmployeeList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnProfile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnChangePassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pEmployeeLayout.setVerticalGroup(
             pEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +249,7 @@ public class frmMain extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(btnEmployeeList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnChangePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -420,9 +429,11 @@ public class frmMain extends javax.swing.JFrame {
 
     
     
-    private void btnProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfileActionPerformed
-        
-    }//GEN-LAST:event_btnProfileActionPerformed
+    frmChangePassword changePassword=new frmChangePassword();
+    
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        getForm(changePassword);
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -469,6 +480,7 @@ public class frmMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBooking;
+    private javax.swing.JButton btnChangePassword;
     private controls.ImageButton btnClose;
     private javax.swing.JButton btnCompetition;
     private javax.swing.JButton btnEmployee;
@@ -477,10 +489,10 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnFootBallClub;
     private javax.swing.JButton btnGeneral;
     private controls.ImageButton btnMinimise;
-    private javax.swing.JButton btnProfile;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnReport1;
     private controls.MyDesktopPane dpContent;
+    private javax.swing.JLabel lbName;
     private javax.swing.JPanel pEmployee;
     private javax.swing.JPanel pGeneral;
     private javax.swing.JPanel pHead;
