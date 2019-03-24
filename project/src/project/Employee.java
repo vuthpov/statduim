@@ -10,10 +10,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,8 +21,37 @@ import javax.swing.table.DefaultTableModel;
 public class Employee {
 
     /**
+     * @return the currentfullName
+     */
+    public static String getCurrentfullName() {
+        return currentfullName;
+    }
+
+    /**
+     * @param aCurrentfullName the currentfullName to set
+     */
+    public static void setCurrentfullName(String aCurrentfullName) {
+        currentfullName = aCurrentfullName;
+    }
+
+    /**
+     * @return the currentRole
+     */
+    public static String getCurrentRole() {
+        return currentRole;
+    }
+
+    /**
+     * @param aCurrentRole the currentRole to set
+     */
+    public static void setCurrentRole(String aCurrentRole) {
+        currentRole = aCurrentRole;
+    }
+
+    /**
      * @return the currentEmpId
      */
+    
     public static int getCurrentEmpId() {
         return currentEmpId;
     }
@@ -38,6 +63,10 @@ public class Employee {
         currentEmpId = aCurrentEmpId;
     }
     
+   
+    
+    
+    
     static Statement stmt;
     static ResultSet rs;
     
@@ -46,8 +75,11 @@ public class Employee {
     
     static String sql;
     
-    private static int currentEmpId;
     
+    static boolean success=false;
+    private static int currentEmpId;
+    private static String currentfullName;
+    private static String currentRole;
     
     
     public static class Job{
@@ -257,9 +289,28 @@ public class Employee {
         }
     }
     
+    public static boolean updatePassword(String password){
+        success=true;
+        
+        try{
+            sql="update user set password=? where empId="+getCurrentEmpId()+";";
+            preparedStmt=dataCon.getCon().prepareStatement(sql);
+            
+            preparedStmt.setString(1, password);
+            preparedStmt.execute();
+            
+        }catch(SQLException ex){
+            success=false;
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return success;
+    }
+    
+    
     public static boolean update(int id,String[] user,String... emp){
         
-        boolean success=true;
+        success=true;
         
         
         sql="update employee set fName=?,lName=?,gender=?,jobid=?,dob=?,hiredDate=?,salary=?,address=?,tel=?,email=?,photo=? where empId="+id+";";
@@ -323,7 +374,7 @@ public class Employee {
     
     
     public static boolean delete(int id){
-        boolean success=true;
+        success=true;
         
         try{
             
@@ -343,7 +394,7 @@ public class Employee {
     }
     
     public static boolean setActivate(int id,int active){
-        boolean success=true;
+        success=true;
         
         try{
             
@@ -361,7 +412,7 @@ public class Employee {
     
     public static boolean insert(String []user,String... data){
         
-        boolean success=true;
+        success=true;
         
         try{
             dataCon.getCon().setAutoCommit(false);
