@@ -5,6 +5,7 @@
  */
 package project;
 
+import controls.MyModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -251,7 +252,7 @@ public class Employee {
 "	when is_active=0 then 'No'\n" +
 "    when is_active=1 then 'Yes'\n" +
 "    else '' end) as 'Active',\n" +
-" photo 'Photo' ,e.empid,ifnull(u.userId,'') from employee e join job j on e.jobId=j.jobid left join user u on e.empId=u.empId left join role r on u.roleId=r.roleid;";
+" photo 'Photo' ,e.empid,ifnull(u.userId,'') from employee e join job j on e.jobId=j.jobid left join user u on e.empId=u.empId left join role r on u.roleId=r.roleid order by empid desc;";
         
         
          try {
@@ -304,16 +305,38 @@ public class Employee {
             JOptionPane.showMessageDialog(null,ex.getMessage(),"",JOptionPane.ERROR_MESSAGE);
         }
         
+        success=closeConnection();
+        
         return success;
     }
     
     
-    public static boolean update(int id,String[] user,String... emp){
+    public static boolean deleteUser(String userId){
+        success=true;
+        
+        sql="delete from user where userId="+userId+";";
+        
+        try{
+            preparedStmt=dataCon.getCon().prepareStatement(sql);
+            preparedStmt.execute();
+            
+        }catch(SQLException ex){
+            success=false;
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+        success=closeConnection();
+        
+        return success;
+    }
+    
+    public static boolean update(int empId,String[] user,String... emp){
         
         success=true;
         
         
-        sql="update employee set fName=?,lName=?,gender=?,jobid=?,dob=?,hiredDate=?,salary=?,address=?,tel=?,email=?,photo=? where empId="+id+";";
+        sql="update employee set fName=?,lName=?,gender=?,jobid=?,dob=?,hiredDate=?,salary=?,address=?,tel=?,email=?,photo=? where empId="+empId+";";
         
         try{
             dataCon.getCon().setAutoCommit(false);
@@ -326,31 +349,51 @@ public class Employee {
             
             preparedStmt.execute();
             
-            if(user[0].equals("")){
-                sql="delete from user where empId="+id+"";
-                preparedStmt=dataCon.getCon().prepareStatement(sql);
-                
-            }else{
-                sql="select count(*) from user where empId="+id+"";
-                Long countUserExist=(Long)dataCon.one_cell_value(sql);
-                
-                
-                if(countUserExist==1)
-                    sql="update user set username=?,password=?,roleId=? where empId="+id+"";
-                else
-                    sql="insert into user (username,password,roleId,empId,is_active) values(?,?,?,?,?)";
-                
-                preparedStmt=dataCon.getCon().prepareStatement(sql);
-                for(int i=1;i<=user.length;i++){
-                    preparedStmt.setString(i, user[i-1]);
+
+            sql="select count(*) from user where empId="+empId+"";
+            Long countUserExist=(Long)dataCon.one_cell_value(sql);
+
+
+            if(countUserExist==1){
+                if(user[0].equals("")){
+                    JOptionPane.showMessageDialog(null,"Username cannot be empty","",JOptionPane.ERROR_MESSAGE);
+                    return false;
                 }
-                
-                if(countUserExist==0){
-                    preparedStmt.setString(4, id+"");
-                    preparedStmt.setString(5, "1");
-                }
-                    
+
+                sql="update user set username=?,password=?,roleId=? where empId="+empId+"";
             }
+            else{
+                if(user[0].equals("")){
+                    
+                    try {
+                        dataCon.getCon().setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null,ex.getMessage(),"",JOptionPane.ERROR_MESSAGE);
+                        success=false;
+                    }
+
+                    closeConnection();
+                    
+                    
+                   return true; 
+                }
+                
+                
+                sql="insert into user (username,password,roleId,empId,is_active) values(?,?,?,?,?)";
+                
+            }
+
+            preparedStmt=dataCon.getCon().prepareStatement(sql);
+            for(int i=1;i<=user.length;i++){
+                preparedStmt.setString(i, user[i-1]);
+            }
+
+            if(countUserExist==0){
+                preparedStmt.setString(4, empId+"");
+                preparedStmt.setString(5, "1");
+            }
+                    
+            
             
             preparedStmt.execute();
             
@@ -371,6 +414,8 @@ public class Employee {
         
         return success;
     }
+    
+    
     
     
     public static boolean delete(int id){

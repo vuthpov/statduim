@@ -113,6 +113,10 @@ public class pEmployee extends javax.swing.JPanel {
             if(!role.getRole().equals(modelEmployee.getValueAt(selectedRowIndex, 12))) return true;
         
         if(!(modelEmployee.getValueAt(selectedRowIndex, 14)+"").equals(pbImage.getIconAbsolutePath())){
+            
+            System.out.println(modelEmployee.getValueAt(selectedRowIndex, 14)+"");
+            System.out.println(pbImage.getIconAbsolutePath());
+           
             return true;
         }
         
@@ -1084,7 +1088,12 @@ public class pEmployee extends javax.swing.JPanel {
         String username=txtUsername.getThisText();
         String password=txtPassword.getThisText();
         
-        
+        if(!username.equals("")&&password.equals("")){
+            txtPassword.setCustomBorder(new Color(203,25,21));
+            return;
+        }else{
+            txtPassword.resetBorder();
+        }
         
         
         Date dob=dDob.getValue();
@@ -1163,15 +1172,16 @@ public class pEmployee extends javax.swing.JPanel {
             
             }
         }else{
+
+            int empId=Integer.parseInt(modelEmployee.getValueAt(selectedRowIndex, 15)+"");
             
             
-            int id=Integer.parseInt(modelEmployee.getValueAt(selectedRowIndex, 15)+"");
             
-            if(Employee.update(id, user, emp)){
+            if(Employee.update(empId, user, emp)){
                 
                 
                 
-                editModelEmployee(fName,lName,gender,cbJob.getSelectedItem()+"",dDob.getStringValue(dDob.getFormatPattern()),dHiredDate.getStringValue(dHiredDate.getFormatPattern()),df.format(salary) ,address,phone,email,
+                editModelEmployee(user,fName,lName,gender,cbJob.getSelectedItem()+"",dDob.getStringValue(dDob.getFormatPattern()),dHiredDate.getStringValue(dHiredDate.getFormatPattern()),df.format(salary) ,address,phone,email,
                         username,username.equals("")?"":cbRole.getSelectedItem()+"",username.equals("")?"":"Yes",imageUrl);
                 
                 
@@ -1187,7 +1197,7 @@ public class pEmployee extends javax.swing.JPanel {
     }//GEN-LAST:event_btnConfirmActionPerformed
     
     
-    void editModelEmployee(String... emp){
+    void editModelEmployee(String [] user,String... emp){
         for(int i=0;i<emp.length;i++){
             modelEmployee.setValueAt(emp[i], selectedRowIndex, i+1);
         }

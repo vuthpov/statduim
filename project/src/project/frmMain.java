@@ -5,6 +5,7 @@
  */
 package project;
 
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
@@ -423,6 +424,11 @@ public class frmMain extends javax.swing.JFrame {
     
     private void btnEmployeeListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmployeeListActionPerformed
         
+        
+        if(Permission.denyAccess(Employee.getCurrentRole(), "User")){
+            
+            return;
+        }
         getForm(employeeList);
         
     }//GEN-LAST:event_btnEmployeeListActionPerformed

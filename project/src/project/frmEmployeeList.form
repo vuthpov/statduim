@@ -42,6 +42,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popActivateActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="popDeleteUser">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete User"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="popDeleteUserActionPerformed"/>
+          </Events>
+        </MenuItem>
         <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="popViewImage">
