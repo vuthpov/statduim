@@ -14,8 +14,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -23,9 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -104,7 +100,7 @@ public class frmEmployeeList extends MyInternalFrame {
             boolean isVisibledForActivate=false;
             
             if(jTableEmployee.getSelectedRowCount()==1){
-                int selectedRowIndex=jTableEmployee.getSelectedRow();
+                selectedRowIndex=jTableEmployee.getSelectedRow();
                 isVisibledForViewImage=!(modelEmployee.getValueAt(selectedRowIndex, 14)+"").equals("");
                 
                 isVisibledForActivate=!(modelEmployee.getValueAt(selectedRowIndex, 13)+"").equals("");
@@ -130,7 +126,7 @@ public class frmEmployeeList extends MyInternalFrame {
     }
 
     void setTextOnPopActivate(){
-        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        selectedRowIndex=jTableEmployee.getSelectedRow();
         if(jTableEmployee.getSelectedRowCount()==0) return;
         
         String st="";
@@ -151,6 +147,7 @@ public class frmEmployeeList extends MyInternalFrame {
         
         jSeparator2.setVisible(isVisibledForActivate);
         popActivate.setVisible(isVisibledForActivate);
+        popDeleteUser.setVisible(isVisibledForActivate);
         
         if(modelEmployee==null) return;
         
@@ -175,6 +172,7 @@ public class frmEmployeeList extends MyInternalFrame {
         popDelete = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         popActivate = new javax.swing.JMenuItem();
+        popDeleteUser = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         popViewImage = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
@@ -215,6 +213,14 @@ public class frmEmployeeList extends MyInternalFrame {
             }
         });
         jPopupMenu1.add(popActivate);
+
+        popDeleteUser.setText("Delete User");
+        popDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popDeleteUserActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popDeleteUser);
         jPopupMenu1.add(jSeparator1);
 
         popViewImage.setText("View Photo");
@@ -388,15 +394,13 @@ public class frmEmployeeList extends MyInternalFrame {
     
     private void popActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popActivateActionPerformed
         int active=popActivate.getText().equals("Activate")?1:0;
-        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        selectedRowIndex=jTableEmployee.getSelectedRow();
         int id=Integer.valueOf(modelEmployee.getValueAt(selectedRowIndex, modelEmployee.getColumnCount()-1)+"");
         
         if(Employee.setActivate(id, active)){
             String st=active==1?"Yes":"No";
             
             modelEmployee.setValueAt(st, selectedRowIndex, 13);
-            
-           
             popActivate.setText(active!=1?"Activate":"Deactivate");
         }
         
@@ -404,13 +408,26 @@ public class frmEmployeeList extends MyInternalFrame {
     }//GEN-LAST:event_popActivateActionPerformed
 
     private void popDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popDeleteActionPerformed
-        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        
+        selectedRowIndex=jTableEmployee.getSelectedRow();
+        
+        if(Employee.getCurrentEmpId()==Integer.parseInt(modelEmployee.getValueAt(selectedRowIndex,modelEmployee.getColumnCount()-2)+"")){
+            JOptionPane.showMessageDialog(this, "Cannot delete this user", "",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        if(!confirmation("Are you sure you want to delete this user")) return;
+        
+        
+        
+       
         
         int id=Integer.valueOf(modelEmployee.getValueAt(selectedRowIndex, modelEmployee.getColumnCount()-2)+"");
         
         if(Employee.delete(id)){
             modelEmployee.removeRow(selectedRowIndex);
             resetAutoNumber(selectedRowIndex);
+            
+            
             JOptionPane.showMessageDialog(this, "Delete successful", "",JOptionPane.INFORMATION_MESSAGE);
             
             
@@ -418,7 +435,7 @@ public class frmEmployeeList extends MyInternalFrame {
     }//GEN-LAST:event_popDeleteActionPerformed
 
     private void popEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditActionPerformed
-        int selectedRowIndex=jTableEmployee.getSelectedRow();
+        selectedRowIndex=jTableEmployee.getSelectedRow();
         JDialog dialog=new JDialog(mainForm);
         pEmployee employee=new pEmployee(dialog,modelEmployee,selectedRowIndex);
 
@@ -426,6 +443,49 @@ public class frmEmployeeList extends MyInternalFrame {
         
         prepareDialog(dialog, employee,false);
     }//GEN-LAST:event_popEditActionPerformed
+
+    
+    boolean confirmation(String message){
+        boolean comfirm=false;
+        int n=JOptionPane.showConfirmDialog(this, message,"",JOptionPane.YES_NO_OPTION);
+
+        comfirm=n==JOptionPane.YES_OPTION;
+        
+        return comfirm;
+        
+        
+    }
+    
+    
+    private void popDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popDeleteUserActionPerformed
+        if(confirmation("Are you sure you want to delete this user?")){
+            
+            
+            selectedRowIndex=jTableEmployee.getSelectedRow();
+            
+            String userId=modelEmployee.getValueAt(selectedRowIndex, modelEmployee.getColumnCount()-1)+"";
+            
+            if(Employee.deleteUser(userId)){
+                
+
+                
+                for(int i=11;i<=13;i++){
+                    modelEmployee.setValueAt("", selectedRowIndex, i);
+                }
+                
+                modelEmployee.setValueAt("", selectedRowIndex, 16);
+                
+                jSeparator2.setVisible(false);
+                popDeleteUser.setVisible(false);
+                popActivate.setVisible(false);
+                
+                JOptionPane.showMessageDialog(this, "User deleted", "",JOptionPane.INFORMATION_MESSAGE);
+                
+                
+            }
+            
+        }
+    }//GEN-LAST:event_popDeleteUserActionPerformed
     
     MyModel modelEmployee;
     
@@ -478,6 +538,7 @@ class PictureBoxRenderer implements TableCellRenderer {
     private javax.swing.JMenuItem popActivate;
     private javax.swing.JMenuItem popAdd;
     private javax.swing.JMenuItem popDelete;
+    private javax.swing.JMenuItem popDeleteUser;
     private javax.swing.JMenuItem popEdit;
     private javax.swing.JMenuItem popViewImage;
     // End of variables declaration//GEN-END:variables
