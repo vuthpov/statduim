@@ -39,7 +39,7 @@ public class frmMain extends javax.swing.JFrame {
         pLeft.setPreferredSize(d);
         
         
-        DropDown ddGeneral=new DropDown(btnGeneral, pGeneral, 200, 10, 5);
+        DropDown ddGeneral=new DropDown(btnGeneral, pGeneral, 250, 10, 5);
         DropDown ddUser=new DropDown(btnEmployee, pEmployee, 150, 10, 5);
         DropDown ddReport=new DropDown(btnReport, pReport, 100, 10, 5);
         
@@ -68,6 +68,7 @@ public class frmMain extends javax.swing.JFrame {
         btnFootBallClub = new javax.swing.JButton();
         btnCompetition = new javax.swing.JButton();
         btnBooking = new javax.swing.JButton();
+        btnLeague = new javax.swing.JButton();
         btnExpense = new javax.swing.JButton();
         pEmployee = new javax.swing.JPanel();
         btnEmployee = new javax.swing.JButton();
@@ -170,6 +171,11 @@ public class frmMain extends javax.swing.JFrame {
         btnFootBallClub.setForeground(new java.awt.Color(22, 22, 22));
         btnFootBallClub.setText("Football Club");
         btnFootBallClub.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnFootBallClub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFootBallClubActionPerformed(evt);
+            }
+        });
 
         btnCompetition.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnCompetition.setForeground(new java.awt.Color(22, 22, 22));
@@ -181,6 +187,16 @@ public class frmMain extends javax.swing.JFrame {
         btnBooking.setText("Booking");
         btnBooking.setPreferredSize(new java.awt.Dimension(77, 50));
 
+        btnLeague.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnLeague.setForeground(new java.awt.Color(22, 22, 22));
+        btnLeague.setText("League");
+        btnLeague.setPreferredSize(new java.awt.Dimension(77, 50));
+        btnLeague.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLeagueActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pGeneralLayout = new javax.swing.GroupLayout(pGeneral);
         pGeneral.setLayout(pGeneralLayout);
         pGeneralLayout.setHorizontalGroup(
@@ -189,11 +205,14 @@ public class frmMain extends javax.swing.JFrame {
             .addComponent(btnFootBallClub, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
             .addComponent(btnCompetition, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
             .addComponent(btnBooking, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(btnLeague, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pGeneralLayout.setVerticalGroup(
             pGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pGeneralLayout.createSequentialGroup()
                 .addComponent(btnGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnLeague, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnFootBallClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -441,6 +460,20 @@ public class frmMain extends javax.swing.JFrame {
         getForm(changePassword);
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
+    
+    frmClubList clubList=new frmClubList();
+    
+    
+    private void btnFootBallClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFootBallClubActionPerformed
+        getForm(clubList);
+    }//GEN-LAST:event_btnFootBallClubActionPerformed
+
+    frmLeagueList leagueList=new frmLeagueList(employeeList);
+    
+    private void btnLeagueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeagueActionPerformed
+        getForm(leagueList);
+    }//GEN-LAST:event_btnLeagueActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -494,6 +527,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnExpense;
     private javax.swing.JButton btnFootBallClub;
     private javax.swing.JButton btnGeneral;
+    private javax.swing.JButton btnLeague;
     private controls.ImageButton btnMinimise;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnReport1;
