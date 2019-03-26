@@ -24,3 +24,15 @@ update employee set photo='E:\\Year 3\\Java\\staduim\\project\\src\\project\\Ico
 
 
 
+insert into league (league,photo) 
+	values('La Liga','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\laliga.jpg'),
+    ('Series-A','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\series-a.png'),
+    ('Barclays Premier League','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\barclays.jpg');
+    
+insert into club (club,nickname,photo,leagueId)
+	values('Futbol Club Barcelona','Barça','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\bacelona.png',1),
+    ('Real Madrid Club de Fútbol','Real','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\real madrid.png',1),
+    ('Juventus Football Club S.p.A.','JUV','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\juventus.jpg',2),
+    ('Manchester United Football Club','MUFC','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\manunited.png',3),
+    ('Manchester City Football Club','MCFC','E:\\Year 3\\Java\\staduim\\project\\src\\project\\Picture\\mancity.png',3);
+    

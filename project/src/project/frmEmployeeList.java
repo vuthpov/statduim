@@ -8,23 +8,20 @@ package project;
 import controls.JPictureBox;
 import controls.MyInternalFrame;
 import controls.MyModel;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import static project.function.prepareDialog;
+import static project.function.resetAutoNumber;
 
 /**
  *
@@ -57,7 +54,7 @@ public class frmEmployeeList extends MyInternalFrame {
         
         jTableEmployee.setRowHeight(40);
         
-        jTableEmployee.setDefaultRenderer(JPictureBox.class, new PictureBoxRenderer());
+        jTableEmployee.setDefaultRenderer(JPictureBox.class, new controls.PictureBoxRenderer());
         
         
         
@@ -123,6 +120,7 @@ public class frmEmployeeList extends MyInternalFrame {
         tcm.removeColumn(tcm.getColumn(tcm.getColumnCount()-1));
         
         jTableEmployee.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+       
     }
 
     void setTextOnPopActivate(){
@@ -378,19 +376,7 @@ public class frmEmployeeList extends MyInternalFrame {
     }//GEN-LAST:event_popAddActionPerformed
 
     
-    void prepareDialog(JDialog dialog,JPanel panel,boolean isResizable){
-        
-        
-        
-        int[] centerCordinate=frmMain.getCenterCordinate(panel.getPreferredSize());
-        
-        dialog.setLocation(centerCordinate[0], centerCordinate[1]);
-        dialog.setResizable(isResizable);
-        dialog.setModal(true);
-        dialog.add(panel);
-        dialog.pack();
-        dialog.setVisible(true);
-    }
+    
     
     private void popActivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popActivateActionPerformed
         int active=popActivate.getText().equals("Activate")?1:0;
@@ -425,7 +411,9 @@ public class frmEmployeeList extends MyInternalFrame {
         
         if(Employee.delete(id)){
             modelEmployee.removeRow(selectedRowIndex);
-            resetAutoNumber(selectedRowIndex);
+            
+            
+            resetAutoNumber(selectedRowIndex,modelEmployee);
             
             
             JOptionPane.showMessageDialog(this, "Delete successful", "",JOptionPane.INFORMATION_MESSAGE);
@@ -445,7 +433,7 @@ public class frmEmployeeList extends MyInternalFrame {
     }//GEN-LAST:event_popEditActionPerformed
 
     
-    boolean confirmation(String message){
+    public boolean confirmation(String message){
         boolean comfirm=false;
         int n=JOptionPane.showConfirmDialog(this, message,"",JOptionPane.YES_NO_OPTION);
 
@@ -490,39 +478,9 @@ public class frmEmployeeList extends MyInternalFrame {
     MyModel modelEmployee;
     
 
-    void resetAutoNumber(int startRow){
-        
-        for(int i=startRow;i<modelEmployee.getRowCount();i++){
-            modelEmployee.setValueAt(i+1, i, 0);
-        }
-        
-    }
     
-class PictureBoxRenderer implements TableCellRenderer {
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-        boolean hasFocus, int row, int column) {
-            JPictureBox pictureBox=new JPictureBox();
-            ImageIcon icon=new ImageIcon(value+"");
-            pictureBox.setIcon(icon);
-            pictureBox.setImageMode(JPictureBox.mode.Zoom);
-            
-            if (isSelected) {
-                pictureBox.setBackground(table.getSelectionBackground());
-            }else{
-                Color c;
-                    
-                if(row%2==0)
-                    c=new Color(255,255,255);
-                else
-                    c=new Color(242, 242, 242);
-                    
-                
-                pictureBox.setBackground(c);
-                
-            }
-            return pictureBox;
-        }
-}
+    
+
     
     
 

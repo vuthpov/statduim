@@ -44,9 +44,19 @@ create table user(userId int primary key auto_increment,
 	foreign key(roleId) references role(roleId),
 	unique key(username));
 
-    
+
+create table league(leagueId int primary key auto_increment,
+	league nvarchar(30),
+    photo nvarchar(200)
+    );
+
 create table club(clubId int primary key auto_increment,
-	club nvarchar(30));
+	club nvarchar(50),
+    nickname nvarchar(10),
+    photo nvarchar(200),
+    leagueId int,
+    foreign key (leagueId) references league(leagueId)
+    );
     
 create table section(sectionId int primary key auto_increment,
 	section nvarchar(30));
