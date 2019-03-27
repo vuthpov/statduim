@@ -57,34 +57,17 @@ public class frmEmployeeList extends MyInternalFrame {
         jTableEmployee.setDefaultRenderer(JPictureBox.class, new controls.PictureBoxRenderer());
         
         
+       
         
-        MouseAdapter mouse=new MouseAdapter() {
+        
+        function.addPopUpToControl(jPopupMenu1, jTableEmployee);
+        
+        function.addPopUpToControl(jPopupMenu1, jScrollPane2);
+        
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.getButton()==MouseEvent.BUTTON3){
-                    jPopupMenu1.show(jTableEmployee, e.getX(), e.getY());
-                }
-            }
-            
-        };
-        
-        jTableEmployee.addMouseListener(mouse);
         
         
-        mouse=new MouseAdapter() {
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.getButton()==MouseEvent.BUTTON3){
-                    jPopupMenu1.show(jScrollPane2, e.getX(), e.getY());
-                    
-                }
-            }
-            
-        };
         
-        jScrollPane2.addMouseListener(mouse);
         
         setVisiblePopUp(false,false,false);
         
