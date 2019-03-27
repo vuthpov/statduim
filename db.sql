@@ -46,13 +46,13 @@ create table user(userId int primary key auto_increment,
 
 
 create table league(leagueId int primary key auto_increment,
-	league nvarchar(30),
+	league nvarchar(30) unique,
     photo nvarchar(200)
     );
 
 create table club(clubId int primary key auto_increment,
-	club nvarchar(50),
-    nickname nvarchar(10),
+	club nvarchar(50) unique,
+    nickname nvarchar(10) unique,
     photo nvarchar(200),
     leagueId int,
     foreign key (leagueId) references league(leagueId)

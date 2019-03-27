@@ -10,8 +10,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import project.Club.IdNameNoImage;
 
 /**
  *
@@ -27,7 +29,7 @@ public class League {
     
     public static void getLeagueList(DefaultTableModel modelLeague){
         
-        sql="select league,photo,leagueId from league order by leagueId";
+        sql="select league,photo,leagueId from league;";
         
          try {
             stmt=dataCon.getCon().createStatement();
@@ -64,6 +66,44 @@ public class League {
         }
         
     }
+    
+    public static void getLeagueList(DefaultComboBoxModel modelLeague){
+        
+        
+        sql="select league,leagueId,photo from league";
+        
+         try {
+            stmt=dataCon.getCon().createStatement();
+            rs=stmt.executeQuery(sql);
+           
+            
+            if(rs.first()){
+                
+                
+                do{
+                    
+                    IdNameNoImage obj=new IdNameNoImage();
+                    obj.setId(rs.getString(2));
+                    
+                    obj.setName(rs.getString(1));
+                    
+                    obj.setImage(rs.getString(3));
+                    
+                    modelLeague.addElement(obj);
+                    
+                }while(rs.next());
+                        
+            }
+            
+            rs.close();
+            stmt.close();
+            
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
+    
     
     public static boolean delete(int leagueId){
         success=true;

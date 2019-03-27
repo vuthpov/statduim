@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import project.Club.IdAndName;
 
 /**
  *
@@ -244,28 +245,72 @@ public class pLeague extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         String league=txtLeague.getThisText();
         String imageUrl=pbImage.getIconAbsolutePath();
         
         
+        
         if(selectedRowIndex==-1){
             if(League.add(league,imageUrl)){
             
+                
+                Club.IdNameNoImage obj=new Club.IdNameNoImage(League.getLastInsertId(),league,imageUrl);
+               
+                
                 modelLeague.addRow(modelLeague.getRowCount()+1,league,imageUrl,League.getLastInsertId());
+                
+                
+                
+                Club.getModelCbLeague().addElement(obj);
+                
+                txtLeague.resetTextField();
+                pbImage.setIcon(new ImageIcon(originImagePath));
+                
+                
+                
+                
+                
+                
                 JOptionPane.showMessageDialog(this, "Added successful", "",JOptionPane.INFORMATION_MESSAGE);
-            
+                
+                
+                
+                
             }
         }else{
             
             
-            System.out.println(modelLeague.getValueAt(selectedRowIndex, modelLeague.getColumnCount()-1)+"");
+            
             
             int leagueId=Integer.parseInt(modelLeague.getValueAt(selectedRowIndex, modelLeague.getColumnCount()-1)+"");
             
             if(League.update(leagueId, league,imageUrl)){
                 
+                Club.IdNameAndImage obj=new Club.IdNameAndImage(leagueId+"",league,imageUrl);
                 function.updateModel(selectedRowIndex, modelLeague, league,imageUrl);
+                
+                Club.getModelCbLeague().removeElementAt(selectedRowIndex);
+                
+                
+                
+                Club.getModelCbLeague().insertElementAt(new Club.IdNameNoImage(leagueId+"",league,imageUrl) , selectedRowIndex);
+                
+                
+                for(int i=0;i<frmClubList.getModelClub().getRowCount();i++){
+                    
+                    IdAndName objInModelClub=(IdAndName)frmClubList.getModelClub().getValueAt(i, 3);
+                    
+                    if(objInModelClub.getId().equals(obj.getId())){
+                        frmClubList.getModelClub().setValueAt(obj, i, 3);
+                    }
+                    
+                }
+                
+                
                 JOptionPane.showMessageDialog(this, "Updated successful", "",JOptionPane.INFORMATION_MESSAGE);
             }
             

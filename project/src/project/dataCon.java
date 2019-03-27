@@ -11,6 +11,7 @@ package project;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -32,6 +33,11 @@ import javax.swing.table.DefaultTableModel;
 public class dataCon {
     private static Connection Con;
     
+    static Statement stmt;
+    static ResultSet rs;
+
+
+
     
     
     public static void connectToDB()throws Exception{
@@ -130,6 +136,7 @@ public class dataCon {
       
         return error;
     }
+    
     
     
     

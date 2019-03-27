@@ -293,6 +293,11 @@ public class frmLeagueList extends MyInternalFrame {
             
             modelLeague.removeRow(selectedRowIndex);
             resetAutoNumber(selectedRowIndex,modelLeague);
+            
+            
+            Club.getModelCbLeague().removeElementAt(selectedRowIndex);
+            
+            
             JOptionPane.showMessageDialog(null,"Delete Successful","",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_popDeleteActionPerformed
