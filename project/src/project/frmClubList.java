@@ -10,9 +10,15 @@ import controls.MyInternalFrame;
 import controls.MyModel;
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+import project.function;
+import static project.function.prepareDialog;
+import static project.function.resetAutoNumber;
 
 /**
  *
@@ -21,12 +27,30 @@ import javax.swing.table.TableColumnModel;
 public class frmClubList extends MyInternalFrame {
 
     /**
+     * @return the modelClub
+     */
+    public static MyModel getModelClub() {
+        return modelClub;
+    }
+
+    /**
+     * @param modelClub the modelClub to set
+     */
+    public static void setModelClub(MyModel modelClub) {
+        frmClubList.modelClub = modelClub;
+    }
+
+    /**
      * Creates new form frmClubList
      */
     public frmClubList() {
         initComponents();
         TableColumnModel tcm = jTableClub.getColumnModel();
         tcm.removeColumn(tcm.getColumn(tcm.getColumnCount()-1));
+        
+        tcm.getColumn(0).setPreferredWidth(10);
+        tcm.getColumn(1).setPreferredWidth(500);
+        
         
         JTableHeader header = jTableClub.getTableHeader();
         header.setPreferredSize(new Dimension(100, 30));
@@ -45,9 +69,31 @@ public class frmClubList extends MyInternalFrame {
         
         Club.getClubList(modelClub);
         
+        
+        function.addPopUpToControl(jPopupMenu1, jTableClub);
+        
+        function.addPopUpToControl(jPopupMenu1, jScrollPane1);
+        
+        
+        jTableClub.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            boolean isVisibled=jTableClub.getSelectedRowCount()==1;
+            
+            setVisiblePopUp(isVisibled);
+            
+            
+        });
+        
+        
+        
+        
+        
     }
+    
+    
+    
+    
 
-    MyModel modelClub;
+    private static MyModel modelClub;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,11 +103,50 @@ public class frmClubList extends MyInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        popAdd = new javax.swing.JMenuItem();
+        popEdit = new javax.swing.JMenuItem();
+        popDelete = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        popViewImage = new javax.swing.JMenuItem();
         pHead = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableClub = new controls.SubJTable();
+
+        popAdd.setText("Add");
+        popAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popAddActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popAdd);
+
+        popEdit.setText("Edit");
+        popEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popEditActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popEdit);
+
+        popDelete.setText("Delete");
+        popDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popDeleteActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popDelete);
+        jPopupMenu1.add(jSeparator1);
+
+        popViewImage.setText("View Image");
+        popViewImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                popViewImageActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(popViewImage);
 
         pHead.setBackground(new java.awt.Color(34, 45, 49));
 
@@ -77,7 +162,7 @@ public class frmClubList extends MyInternalFrame {
             .addGroup(pHeadLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addComponent(jLabel1)
-                .addContainerGap(611, Short.MAX_VALUE))
+                .addContainerGap(789, Short.MAX_VALUE))
         );
         pHeadLayout.setVerticalGroup(
             pHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,11 +177,11 @@ public class frmClubList extends MyInternalFrame {
 
             },
             new String [] {
-                "#", "Club", "Short Name", "League", "Photo", "clubId"
+                "#", "Club", "Short Name", "League", "Logo", "clubId"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, controls.JPictureBox.class, controls.JPictureBox.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, true, true
@@ -125,7 +210,7 @@ public class frmClubList extends MyInternalFrame {
             pTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pTableLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addGap(35, 35, 35))
         );
 
@@ -148,12 +233,70 @@ public class frmClubList extends MyInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    int selectedRowIndex=-1;
+    private void popViewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popViewImageActionPerformed
+        selectedRowIndex=jTableClub.getSelectedRow();
+        String iconUrl=getModelClub().getValueAt(selectedRowIndex,getModelClub().getColumnCount()-2)+"";
+        
+        frmViewImage viewImage=new frmViewImage(iconUrl);
+        JDialog dialog=new JDialog();
+        
+        function.prepareDialog(dialog, viewImage,true);
+    }//GEN-LAST:event_popViewImageActionPerformed
+
+    private void popAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popAddActionPerformed
+        JDialog dialog=new JDialog();
+        pClub employee=new pClub(dialog, getModelClub());
+
+        
+        
+        prepareDialog(dialog, employee,false);
+    }//GEN-LAST:event_popAddActionPerformed
+
+    private void popDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popDeleteActionPerformed
+        selectedRowIndex=jTableClub.getSelectedRow();
+        
+        String clubId=getModelClub().getValueAt(selectedRowIndex, getModelClub().getColumnCount()-1)+"";
+        
+       if(Club.delete(clubId)){
+           
+            getModelClub().removeRow(selectedRowIndex);
+            resetAutoNumber(selectedRowIndex, getModelClub());
+            JOptionPane.showMessageDialog(this, "Deleted successful", "",JOptionPane.INFORMATION_MESSAGE);
+       }
+    }//GEN-LAST:event_popDeleteActionPerformed
+
+    private void popEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popEditActionPerformed
+        selectedRowIndex=jTableClub.getSelectedRow();
+        JDialog dialog=new JDialog();
+        pClub club=new pClub(dialog, getModelClub(),selectedRowIndex);
+
+        
+        
+        prepareDialog(dialog, club,false);
+    }//GEN-LAST:event_popEditActionPerformed
+    
+    
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private controls.SubJTable jTableClub;
     private javax.swing.JPanel pHead;
     private javax.swing.JPanel pTable;
+    private javax.swing.JMenuItem popAdd;
+    private javax.swing.JMenuItem popDelete;
+    private javax.swing.JMenuItem popEdit;
+    private javax.swing.JMenuItem popViewImage;
     // End of variables declaration//GEN-END:variables
+
+    private void setVisiblePopUp(boolean isVisibled) {
+        for(int i=1;i<jPopupMenu1.getComponentCount();i++){
+            jPopupMenu1.getComponent(i).setVisible(isVisibled);
+        }
+    }
 }

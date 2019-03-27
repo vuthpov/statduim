@@ -252,7 +252,7 @@ public class Employee {
 "	when is_active=0 then 'No'\n" +
 "    when is_active=1 then 'Yes'\n" +
 "    else '' end) as 'Active',\n" +
-" photo 'Photo' ,e.empid,ifnull(u.userId,'') from employee e join job j on e.jobId=j.jobid left join user u on e.empId=u.empId left join role r on u.roleId=r.roleid order by empid desc;";
+" photo 'Photo' ,e.empid,ifnull(u.userId,'') from employee e join job j on e.jobId=j.jobid left join user u on e.empId=u.empId left join role r on u.roleId=r.roleid";
         
         
          try {

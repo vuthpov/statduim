@@ -6,8 +6,12 @@
 package project;
 
 import controls.MyModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -43,6 +47,27 @@ public class function {
             model.setValueAt(data[i], selectedRowIndex, i+1);
         }
         
+        
     }
+    
+    public static void addPopUpToControl(JPopupMenu popupMenu,JComponent component){
+        
+        
+        MouseAdapter mouse=new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getButton()==MouseEvent.BUTTON3){
+                    popupMenu.show(component, e.getX(), e.getY());
+                    
+                }
+            }
+            
+        };
+        
+        component.addMouseListener(mouse);
+    }
+    
+
     
 }

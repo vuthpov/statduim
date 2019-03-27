@@ -9,6 +9,8 @@ package project;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -45,6 +47,11 @@ public class frmMain extends javax.swing.JFrame {
         
         
         lbName.setText("Name: "+Employee.getCurrentfullName()+"           Role: "+Employee.getCurrentRole());
+        
+        
+        
+        League.getLeagueList(Club.getModelCbLeague());
+        
     }
     
     
@@ -417,13 +424,23 @@ public class frmMain extends javax.swing.JFrame {
     
     
     void showForm(JInternalFrame frm){
+       
+        try {
+            frm.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            JOptionPane.showMessageDialog(this,ex.getMessage());
+        }
+        
         if(frm.isIcon()){
             try {
+
                 frm.setIcon(false);
+
             } catch (PropertyVetoException ex) {
                 JOptionPane.showMessageDialog(this,ex.getMessage());
             }
         }
+        
     }
     
     public void getForm(JInternalFrame frm){
