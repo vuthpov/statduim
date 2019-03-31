@@ -5,6 +5,7 @@
  */
 package project;
 
+import controls.MyInternalFrame;
 import javax.swing.JFrame;
 
 /**
@@ -18,6 +19,11 @@ public class ExpenList extends JFrame {
      */
     public ExpenList() {
         initComponents();
+            MyInternalFrame mf=new MyInternalFrame();
+            
+            this.add(mf);
+            mf.show();
+                    
     }
 
     /**
@@ -29,36 +35,17 @@ public class ExpenList extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        myDesktopPane1 = new controls.MyDesktopPane();
-        myInternalFrame2 = new controls.MyInternalFrame();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        myInternalFrame2.setVisible(true);
-
-        javax.swing.GroupLayout myInternalFrame2Layout = new javax.swing.GroupLayout(myInternalFrame2.getContentPane());
-        myInternalFrame2.getContentPane().setLayout(myInternalFrame2Layout);
-        myInternalFrame2Layout.setHorizontalGroup(
-            myInternalFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        myInternalFrame2Layout.setVerticalGroup(
-            myInternalFrame2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        myDesktopPane1.add(myInternalFrame2);
-        myInternalFrame2.setBounds(0, 0, 670, 530);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
+            .addGap(0, 669, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(myDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addGap(0, 529, Short.MAX_VALUE)
         );
 
         pack();
@@ -100,7 +87,5 @@ public class ExpenList extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private controls.MyDesktopPane myDesktopPane1;
-    private controls.MyInternalFrame myInternalFrame2;
     // End of variables declaration//GEN-END:variables
 }
