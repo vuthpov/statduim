@@ -9,7 +9,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import jdk.nashorn.internal.ir.ForNode;
 
 /**
@@ -23,6 +25,7 @@ public class AddExpent extends javax.swing.JFrame {
      */
     DefaultTableModel detail,main;
     Date dt=new Date();
+    int ROW;
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
     public AddExpent() {
         initComponents();
@@ -42,7 +45,7 @@ public AddExpent(int id,DefaultTableModel dm) {
         }
         main=dm;
     }
-public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
+public AddExpent(int id,Timestamp Date,DefaultTableModel dm,int Rowselection) {
         initComponents();
         addcontrol.changefontHeader(subJTable1, "Century Schoolbook", "plain", 14);
         subJTable1.removeColumn(subJTable1.getColumnModel().getColumn(1));
@@ -56,6 +59,7 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
            JOptionPane.showMessageDialog(this, e.getMessage());
     }
        main=dm;
+       ROW=Rowselection;
     }
 
     /**
@@ -88,7 +92,6 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txtsearch = new javax.swing.JTextField();
-        btncancel = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         subJTable1 = new controls.SubJTable();
@@ -197,6 +200,11 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
         btnupdate.setFont(new java.awt.Font("Century Schoolbook", 0, 14)); // NOI18N
         btnupdate.setForeground(new java.awt.Color(255, 153, 0));
         btnupdate.setText("Update");
+        btnupdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnupdateActionPerformed(evt);
+            }
+        });
 
         btnadd.setFont(new java.awt.Font("Century Schoolbook", 0, 14)); // NOI18N
         btnadd.setForeground(new java.awt.Color(0, 102, 0));
@@ -205,6 +213,11 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
         bntdelete.setFont(btnadd.getFont());
         bntdelete.setForeground(new java.awt.Color(255, 0, 0));
         bntdelete.setText("Delete");
+        bntdelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntdeleteActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(btnadd.getFont());
         jButton3.setForeground(new java.awt.Color(0, 204, 204));
@@ -269,10 +282,11 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
 
         txtsearch.setFont(new java.awt.Font("Century Schoolbook", 0, 18)); // NOI18N
         txtsearch.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1)));
-
-        btncancel.setFont(btnadd.getFont());
-        btncancel.setForeground(new java.awt.Color(0, 0, 153));
-        btncancel.setText("Cancel");
+        txtsearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtsearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -282,8 +296,6 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btncancel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -291,9 +303,6 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btncancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(5, 5, 5))
                     .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -386,15 +395,56 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
     private void txtIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIDKeyTyped
            evt.consume();
     }//GEN-LAST:event_txtIDKeyTyped
-
+    Float sumtotal(){
+        float total=(float) 0.0;
+          for(int i=0;i<detail.getRowCount();i++){
+             total+=Float.valueOf(detail.getValueAt(i, 3).toString());
+          }
+        return total;
+    }
     private void subJTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subJTable1MouseClicked
        if(subJTable1.getSelectedRowCount()==1){
           int row=subJTable1.getSelectedRow();
           txtID.setText((Integer)detail.getValueAt(row, 0)+"");
           txtDesc.setText((String)detail.getValueAt(row, 2));
           txtamount.setText((Float)detail.getValueAt(row, 3)+"");
+          
+          txttotalamount.setText(sumtotal()+"");
        }
     }//GEN-LAST:event_subJTable1MouseClicked
+    private void  rowfilter(String Qur){
+        TableRowSorter<DefaultTableModel> tr=new TableRowSorter<>(detail);
+        subJTable1.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(Qur));
+    }
+    private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
+            if(subJTable1.getSelectedRowCount()==1){
+                int row=subJTable1.getSelectedRow();
+                detail.setValueAt(txtID.getText(), row, 0);
+                detail.setValueAt(txtDesc.getText(), row, 2);
+                detail.setValueAt(txtamount.getText(), row, 3);
+                
+                main.setValueAt(sumtotal(), ROW, 2);
+                
+            }else{
+                JOptionPane.showMessageDialog(btnupdate, "Please! Select one row to Update");
+            }
+    }//GEN-LAST:event_btnupdateActionPerformed
+
+    private void bntdeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntdeleteActionPerformed
+           if(subJTable1.getSelectedRowCount()>0){
+               while (subJTable1.getSelectedRowCount()>0) {                   
+                   int row=subJTable1.getSelectedRow();
+                   detail.removeRow(row);
+               }
+               main.setValueAt(sumtotal(), ROW, 2);
+           }
+    }//GEN-LAST:event_bntdeleteActionPerformed
+
+    private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
+        String Qur=txtsearch.getText();
+        rowfilter(Qur);
+    }//GEN-LAST:event_txtsearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -434,7 +484,6 @@ public AddExpent(int id,Timestamp Date,DefaultTableModel dm) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntdelete;
     private javax.swing.JButton btnadd;
-    private javax.swing.JButton btncancel;
     private javax.swing.JButton btnupdate;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
